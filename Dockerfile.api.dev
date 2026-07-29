@@ -1,0 +1,22 @@
+FROM mcr.microsoft.com/dotnet/sdk:9.0
+WORKDIR /app
+
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends unixodbc tdsodbc curl && \
+    rm -rf /var/lib/apt/lists/*
+
+RUN printf '[FreeTDS]\nDescription=FreeTDS Driver\nDriver=/usr/lib/x86_64-linux-gnu/odbc/libtdsodbc.so\n' \
+    > /etc/odbcinst.ini
+
+COPY ["Secretaria.Api.csproj", "./"]
+RUN dotnet restore
+
+COPY . .
+
+ENV ASPNETCORE_ENVIRONMENT=Development
+ENV ASPNETCORE_URLS=http://+:8080
+ENV DOTNET_USE_POLLING_FILE_WATCHER=1
+
+EXPOSE 8080
+
+ENTRYPOINT ["dotnet", "watch", "run", "--project", "Secretaria.Api.csproj", "--urls", "http://0.0.0.0:8080"]
