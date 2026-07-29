@@ -1,0 +1,24 @@
+# ── .NET ──────────────────────────────────────────────────────────────────────
+bin/
+obj/
+*.user
+*.suo
+.vs/
+.idea/
+*.swp
+publish/
+*.nupkg
+TestResults/
+coverage/
+
+# ── React / Node ───────────────────────────────────────────────────────────────
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/.env.local
+frontend/.env.*.local
+
+# ── Segredos e configurações locais ───────────────────────────────────────────
+.env
+.env.dev
+appsettings.Development.json

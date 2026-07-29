@@ -1,0 +1,51 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --cor-funcesi-principal: #1e22aa;
+}
+
+@layer base {
+  body {
+    @apply font-sans antialiased text-slate-800;
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior-y: none;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--cor-funcesi-principal);
+    color: #ffffff;
+    font-size: 0.875rem;
+    font-weight: 600;
+    padding: 10px 24px;
+    border-radius: 8px;
+    white-space: nowrap;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+  }
+  .btn-primary:hover    { background-color: #15198a; }
+  .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+  .btn-secondary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #f1f5f9;
+    color: #334155;
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 10px 24px;
+    border-radius: 8px;
+    border: 1px solid #e2e8f0;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+  }
+  .btn-secondary:hover { background-color: #e2e8f0; }
+}
