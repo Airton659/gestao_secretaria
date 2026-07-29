@@ -23,7 +23,7 @@ services:
     image: ghcr.io/airton659/secretaria-frontend:latest
     container_name: secretaria-frontend
     ports:
-      - "8005:80"
+      - "8006:80"
     depends_on:
       - secretaria-api
     restart: unless-stopped
