@@ -7,9 +7,8 @@ RUN apt-get update && apt-get install -y \
     unixodbc \
     unixodbc-dev \
     tdsodbc \
-    && rm -rf /var/lib/apt/lists/*
-
-COPY odbcinst.ini /etc/odbcinst.ini
+    && rm -rf /var/lib/apt/lists/* \
+    && printf "[FreeTDS]\nDescription=FreeTDS\nDriver=/usr/lib/x86_64-linux-gnu/odbc/libtdsodbc.so\nSetup=/usr/lib/x86_64-linux-gnu/odbc/libtdsS.so\n" > /etc/odbcinst.ini
 
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src

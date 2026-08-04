@@ -22,7 +22,7 @@ async function ensureCryptoSubtle() {
     const proxy = new Proxy(orig, {
       get(t, p) {
         if (p === 'subtle') return mockSubtle;
-        const v = (t as Record<string | symbol, unknown>)[p as string];
+        const v = (t as unknown as Record<string | symbol, unknown>)[p as string];
         return typeof v === 'function' ? (v as (...a: unknown[]) => unknown).bind(t) : v;
       },
     });
