@@ -55,6 +55,7 @@ export function SubturmasPage() {
   // Estado de edição inline por linha
   const [editandoKey, setEditandoKey]     = useState<string | null>(null);
   const [editandoValor, setEditandoValor] = useState(0);
+  const [apenasEsta, setApenasEsta]       = useState(false);
   const [salvando, setSalvando]           = useState(false);
   const [erroLimitar, setErroLimitar]     = useState<string | null>(null);
   const [erroKey, setErroKey]             = useState<string | null>(null);
@@ -79,6 +80,7 @@ export function SubturmasPage() {
   function iniciarEdicao(r: SubturmaResult) {
     setEditandoKey(rowKey(r));
     setEditandoValor(0);
+    setApenasEsta(false);
     setErroLimitar(null);
     setErroKey(null);
   }
@@ -96,15 +98,19 @@ export function SubturmasPage() {
       await api.subturmas.limitar({
         codColigada: r.codColigada,
         idTurmaDisc: r.idTurmaDiscGerencial,
+        idTurmaDiscGerenciada: r.idTurmaDiscGerenciada,
         codSubturma: r.codSubturma,
         maxAlunos: editandoValor,
+        apenasEsta,
       });
-      // Atualiza maxAlunosGer em TODAS as linhas do mesmo grupo/subturma (compartilham o mesmo registro no SSUBTURMA gerencial)
-      const gKey = gerencialKey(r);
+      // Atualiza maxAlunosGer: somente esta linha ou todas do mesmo grupo
+      const rKey  = rowKey(r);
+      const gKey  = gerencialKey(r);
       setResultado(prev =>
-        prev?.map(item =>
-          gerencialKey(item) === gKey ? { ...item, maxAlunosGer: editandoValor } : item
-        ) ?? null
+        prev?.map(item => {
+          if (apenasEsta) return rowKey(item) === rKey ? { ...item, maxAlunosGer: editandoValor } : item;
+          return gerencialKey(item) === gKey ? { ...item, maxAlunosGer: editandoValor } : item;
+        }) ?? null
       );
       setEditandoKey(null);
     } catch (err) {
@@ -250,6 +256,16 @@ export function SubturmasPage() {
                             {erroKey === rowKey(r) && (
                               <span className="text-[10px] text-red-600 max-w-[160px] text-center leading-tight">{erroLimitar}</span>
                             )}
+                            <label className="flex items-center gap-1 text-[10px] text-slate-500 cursor-pointer select-none">
+                              <input
+                                type="checkbox"
+                                checked={apenasEsta}
+                                onChange={e => setApenasEsta(e.target.checked)}
+                                disabled={salvando}
+                                className="accent-funcesi-blue w-3 h-3"
+                              />
+                              Somente esta
+                            </label>
                             <div className="flex items-center justify-center gap-1">
                               <input
                                 type="number"
