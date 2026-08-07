@@ -38,7 +38,7 @@ public class SubturmasController : ControllerBase
     public async Task<IActionResult> UpdateMaxAlunos([FromBody] SubturmaLimitarRequest req)
     {
         if (!ModelState.IsValid) return BadRequest(ModelState);
-        await _repo.UpdateMaxAlunosAsync(req.CodColigada, req.IdTurmaDisc, req.CodSubturma, req.MaxAlunos);
+        await _repo.UpdateMaxAlunosAsync(req.CodColigada, req.IdTurmaDisc, req.IdTurmaDiscGerenciada, req.CodSubturma, req.MaxAlunos, req.ApenasEsta);
         return NoContent();
     }
 }

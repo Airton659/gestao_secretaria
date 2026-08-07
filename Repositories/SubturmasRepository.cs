@@ -128,34 +128,51 @@ public class SubturmasRepository : ISubturmasRepository
         return await conn.QueryAsync<SubturmaResultDto>(sql, p);
     }
 
-    public async Task UpdateMaxAlunosAsync(int codColigada, int idTurmaDisc, string codSubturma, int maxAlunos)
+    public async Task UpdateMaxAlunosAsync(int codColigada, int idTurmaDisc, int idTurmaDiscGerenciada, string codSubturma, int maxAlunos, bool apenasEsta)
     {
-        // Atualiza SSUBTURMA da turma gerencial E de todas as gerenciadas vinculadas
-        const string updateSql = """
-            UPDATE SSUBTURMA
-            SET MAXALUNOS = ?
-            WHERE CODCOLIGADA = ?
-              AND CODSUBTURMA  = ?
-              AND (
-                    IDTURMADISC = ?
-                    OR IDTURMADISC IN (
-                        SELECT G.IDTURMADISCGERENCIADA
-                        FROM STURMADISCGERENCIADA G (NOLOCK)
-                        WHERE G.CODCOLIGADA = ?
-                          AND G.IDTURMADISC  = ?
-                    )
-                  )
-            """;
-
-        // Ordem posicional dos ? : MaxAlunos, CodColigada, CodSubturma,
-        //   IdTurmaDisc (direto), CodColigada (subquery), IdTurmaDisc (subquery)
+        string updateSql;
         var p = new DynamicParameters();
-        p.Add("p1", maxAlunos);
-        p.Add("p2", codColigada);
-        p.Add("p3", codSubturma);
-        p.Add("p4", idTurmaDisc);
-        p.Add("p5", codColigada);
-        p.Add("p6", idTurmaDisc);
+
+        if (apenasEsta)
+        {
+            // Atualiza somente a subturma da gerenciada específica
+            updateSql = """
+                UPDATE SSUBTURMA
+                SET MAXALUNOS = ?
+                WHERE CODCOLIGADA = ?
+                  AND CODSUBTURMA  = ?
+                  AND IDTURMADISC  = ?
+                """;
+            p.Add("p1", maxAlunos);
+            p.Add("p2", codColigada);
+            p.Add("p3", codSubturma);
+            p.Add("p4", idTurmaDiscGerenciada);
+        }
+        else
+        {
+            // Atualiza SSUBTURMA da turma gerencial E de todas as gerenciadas vinculadas
+            updateSql = """
+                UPDATE SSUBTURMA
+                SET MAXALUNOS = ?
+                WHERE CODCOLIGADA = ?
+                  AND CODSUBTURMA  = ?
+                  AND (
+                        IDTURMADISC = ?
+                        OR IDTURMADISC IN (
+                            SELECT G.IDTURMADISCGERENCIADA
+                            FROM STURMADISCGERENCIADA G (NOLOCK)
+                            WHERE G.CODCOLIGADA = ?
+                              AND G.IDTURMADISC  = ?
+                        )
+                      )
+                """;
+            p.Add("p1", maxAlunos);
+            p.Add("p2", codColigada);
+            p.Add("p3", codSubturma);
+            p.Add("p4", idTurmaDisc);
+            p.Add("p5", codColigada);
+            p.Add("p6", idTurmaDisc);
+        }
 
         using var conn = _factory.Create();
         await conn.ExecuteAsync(updateSql, p);

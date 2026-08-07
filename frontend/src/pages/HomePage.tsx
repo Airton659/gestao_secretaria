@@ -53,6 +53,24 @@ function IconSubturmas() {
   );
 }
 
+function IconApuracao() {
+  return (
+    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+      <path strokeLinecap="round" strokeLinejoin="round"
+        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+    </svg>
+  );
+}
+
+function IconIndicadores() {
+  return (
+    <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+      <path strokeLinecap="round" strokeLinejoin="round"
+        d="M16 8v8m-4-5v5m-4-2v2M3 20h18" />
+    </svg>
+  );
+}
+
 export function HomePage() {
   const { perfil } = usePerfil();
 
@@ -76,7 +94,20 @@ export function HomePage() {
           icon={<IconSubturmas />}
           to="/subturmas"
         />
-        {/* Novas funcionalidades serão adicionadas aqui */}
+        <FeatureCard
+          title="Apuração de Resultados"
+          description="Consolide e acompanhe os resultados acadêmicos por turma e período letivo."
+          icon={<IconApuracao />}
+          to="/apuracao"
+          disabled
+        />
+        <FeatureCard
+          title="Indicadores de Alunos"
+          description="Visualize indicadores de desempenho, frequência e situação dos alunos."
+          icon={<IconIndicadores />}
+          to="/indicadores"
+          disabled
+        />
       </div>
     </div>
   );

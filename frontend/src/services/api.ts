@@ -47,7 +47,7 @@ export const api = {
       const qs = new URLSearchParams({ codPerlet, codTurma, maxAlunos: String(maxAlunos) });
       return request<import('../types/subturmas').SubturmaResult[]>(`/api/subturmas?${qs}`);
     },
-    limitar: (body: { codColigada: number; idTurmaDisc: number; codSubturma: string; maxAlunos: number }) =>
+    limitar: (body: { codColigada: number; idTurmaDisc: number; idTurmaDiscGerenciada: number; codSubturma: string; maxAlunos: number; apenasEsta: boolean }) =>
       request<void>('/api/subturmas/maxalunos', { method: 'PUT', body: JSON.stringify(body) }),
   },
 };
