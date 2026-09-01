@@ -19,6 +19,7 @@ public static class InfrastructureExtensions
         services.AddScoped<IPerfilAcessoRepository, PerfilAcessoRepository>();
         services.AddScoped<IUsuarioPerfilRepository, UsuarioPerfilRepository>();
         services.AddScoped<ISubturmasRepository, SubturmasRepository>();
+        services.AddScoped<IIndicadoresRepository, IndicadoresRepository>();
         services.AddScoped<IPermissaoService, PermissaoService>();
 
         return services;
