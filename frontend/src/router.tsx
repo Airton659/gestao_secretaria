@@ -3,6 +3,7 @@ import { createBrowserRouter, Navigate, Outlet } from 'react-router-dom';
 import { AppLayout } from './layouts/AppLayout';
 import { HomePage } from './pages/HomePage';
 import { SubturmasPage } from './pages/subturmas/SubturmasPage';
+import { IndicadoresPage } from './pages/indicadores/IndicadoresPage';
 import { PerfisScreen } from './pages/admin/PerfisScreen';
 import { SemAcessoPage } from './pages/SemAcessoPage';
 import keycloak from './keycloak';
@@ -29,6 +30,7 @@ export const router = createBrowserRouter([
         children: [
           { path: '/',              element: <HomePage /> },
           { path: '/subturmas',     element: <SubturmasPage /> },
+          { path: '/indicadores',   element: <IndicadoresPage /> },
           { path: '/admin/perfis',  element: <PerfisScreen /> },
         ],
       },

@@ -106,7 +106,6 @@ export function HomePage() {
           description="Visualize indicadores de desempenho, frequência e situação dos alunos."
           icon={<IconIndicadores />}
           to="/indicadores"
-          disabled
         />
       </div>
     </div>

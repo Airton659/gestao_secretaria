@@ -42,6 +42,17 @@ export const api = {
     removeUsuario:(perfilId: number, usuarioId: number) => request<void>(`/api/perfis/${perfilId}/usuarios/${usuarioId}`, { method: 'DELETE' }),
   },
 
+  indicadores: {
+    notasProvas: (codPerlet: string, ra: string, codTurma: string) => {
+      const qs = new URLSearchParams({ codPerlet, ra, codTurma });
+      return request<import('../types/indicadores').NotaProvaResult[]>(`/api/indicadores/notas-provas?${qs}`);
+    },
+    notasEtapas: (codPerlet: string, ra: string, codTurma: string, tipoEtapa: string) => {
+      const qs = new URLSearchParams({ codPerlet, ra, codTurma, ...(tipoEtapa ? { tipoEtapa } : {}) });
+      return request<import('../types/indicadores').NotaEtapaResult[]>(`/api/indicadores/notas-etapas?${qs}`);
+    },
+  },
+
   subturmas: {
     list: (codPerlet: string, codTurma: string, maxAlunos: number) => {
       const qs = new URLSearchParams({ codPerlet, codTurma, maxAlunos: String(maxAlunos) });
