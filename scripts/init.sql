@@ -1,4 +1,4 @@
--- Script de inicialização do banco dbFuncesiSecretaria
+-- Script de inicialização do banco da Secretaria
 -- Execute uma única vez antes de subir a aplicação pela primeira vez
 
 -- ── Tabela de Perfis de Acesso ────────────────────────────────────────────────
